@@ -38,7 +38,14 @@
 
 -- INSERT INTO Assignment(StudentId, InstructorId, ExerciseId) VALUES (10,9,3);
 
-SELECT * FROM Assignment;
 
-
+SELECT s.Id, s.FirstName, s.LastName, s.SlackHandle, s.CohortId, c.Id, c.Title, a.StudentId, a.ExerciseId, a.InstructorId, e.ExerciseName, e.ExerciseLanguage
+FROM Student s
+JOIN Cohort c
+ON s.CohortId = c.Id
+JOIN Assignment a
+ON s.Id = a.StudentId
+JOIN Exercise e 
+ON a.ExerciseId = e.Id
+ 
 

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
 
-namespace StudentExercises
+namespace StudentExercises.Controllers
 {
-    public class Repository
+    public class ExercisesController
     {
         public SqlConnection Connection
         {
@@ -17,6 +17,7 @@ namespace StudentExercises
             }
         }
 
+        // GET ALL exercises from DB
         public List<Exercise> GetAllExercises()
         {
             using (SqlConnection conn = Connection)
@@ -29,7 +30,7 @@ namespace StudentExercises
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     List<Exercise> exercises = new List<Exercise>();
-
+                    
                     while(reader.Read())
                     {
                         int idColumnPosition = reader.GetOrdinal("Id");
@@ -56,7 +57,9 @@ namespace StudentExercises
                 }
             }
         }
-
+        
+        
+        // GET EXERCISES based upon a particular language
         public List<Exercise> GetExerciseByLanguage(string lang)
         {
             using (SqlConnection conn = Connection)
@@ -101,6 +104,7 @@ namespace StudentExercises
             }
         }
 
+        // Add Exercise into DB
         public void AddExercise(Exercise exercise)
         {
             using (SqlConnection conn = Connection)
@@ -108,10 +112,12 @@ namespace StudentExercises
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Exercise(ExerciseName, ExerciseLanguage) VALUES('{exercise.ExerciseName}', '{exercise.ExerciseLanguage}')";
+                    cmd.CommandText = $"INSERT INTO Exercise(ExerciseName, ExerciseLanguage) VALUES('{exercise.ExerciseName}', '{exercise.ExerciseLanguage}')";
                     cmd.ExecuteNonQuery();
                 }
             }
         }
+
+
     }
 }
